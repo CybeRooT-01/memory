@@ -20,6 +20,7 @@ export class PrestatairesComponent {
   user_id: number | undefined ;
   selectedEventId: number | undefined;
   message: string = '';
+  allPrestataires: Prestataire[] = [];
 
 
   constructor(
@@ -32,6 +33,7 @@ export class PrestatairesComponent {
   ngOnInit(): void {
     this.prestataireservice.All().subscribe((response) => {
       this.prestataire = response.data;
+      this.allPrestataires = response.data;
       const script = document.createElement('script');
       script.src =
         'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js';
@@ -73,9 +75,14 @@ export class PrestatairesComponent {
     }, (error) => {
       this.toastr.error(error.error.message);
     });
-    
-    
   }
+searchPrestataire(event: any){
+  this.prestataire = this.allPrestataires.filter((prestataire: Prestataire) => {
+    return prestataire.nom.toLowerCase().includes(event.target.value.toLowerCase() )
+    });
+}
+
+    
 
 
 }

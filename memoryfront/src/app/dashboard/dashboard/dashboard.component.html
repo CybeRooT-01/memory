@@ -50,6 +50,15 @@
         >
         <a routerLink="/prestataires"><i class="bx bx-chat"></i>Prestataires</a>
       </li>
+
+      <li
+        *ngIf="userLogged.data?.role == 'Prestataire de Services'"
+        [class.active]="isActive('invitation-participation')"
+        (click)="setActive('invitation-participation')"
+      >
+        <a routerLink="/invitation-prestataire"
+          ><i class="bx bx-mail-send"></i>Invitations</a>
+      </li>
     </ul>
     <ul class="side-menu">
       <li>

@@ -22,6 +22,7 @@ import { RolePrestataireGuards } from '../shared/guards/RolePrestataireGuards';
 import { DemandeParticipationComponent } from './demande-participation/demande-participation.component';
 import { ChatComponent } from './chat/chat.component';
 import { PrestatairesComponent } from './prestataires/prestataires.component';
+import { InvitationPrestataireComponent } from './invitation-prestataire/invitation-prestataire.component';
 const authRoutes: Routes = [
   {
     path: '',
@@ -64,6 +65,10 @@ const authRoutes: Routes = [
         path: 'prestataires',
         component: PrestatairesComponent,
       },
+      {
+        path: 'invitation-prestataire',
+        component: InvitationPrestataireComponent,
+      }
     ],
   },
 ];
@@ -79,6 +84,7 @@ const authRoutes: Routes = [
     DemandeParticipationComponent,
     ChatComponent,
     PrestatairesComponent,
+    InvitationPrestataireComponent,
   ],
   imports: [
     CommonModule,
