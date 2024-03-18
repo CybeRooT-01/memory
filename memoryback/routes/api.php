@@ -39,6 +39,7 @@ Route::post('/notation', [NotationController::class, 'store']);
 Route::get('/user/prestataires', [UserController::class, 'getuserPrestataires']);
 Route::get('/evenement/user/{id}', [EvenementController::class, 'getuserEvenements']);
 Route::post('/prestataire/invite', [PrestataireController::class, 'invitePrestataire']);
+Route::get('/prestataire/{id}/invitations', [PrestataireController::class, 'getInvitations']);
 
 Route::middleware('auth:api')->get('/verify-token', function () {
   return true; // Si le middleware auth:api passe, le token est valide

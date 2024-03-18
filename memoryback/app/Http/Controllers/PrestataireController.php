@@ -10,6 +10,7 @@ use App\Mail\InvitationEventMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\InvitationPrestataire;
 use App\traits\NotFoundResponseTrait;
+use App\Http\Resources\InvitationResource;
 use App\Http\Resources\PrestataireResource;
 use App\Http\Requests\PrestatairePostRequest;
 
@@ -104,5 +105,13 @@ class PrestataireController extends Controller
             'message' => $request->message,
         ]);
         return response()->json(['message' => 'Invitation envoyée', 'status' => 201], 201);  
+    }
+
+    public function getInvitations(string $id){
+        $invite = User::find($id);
+        if(!$invite){
+            return $this->notFoundResponse('Utilisateur non trouvé');
+        }
+        return InvitationResource::collection(InvitationPrestataire::where('invite_id', $id)->get());
     }
 }
