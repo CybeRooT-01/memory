@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="our-team">
+      <div class="picture">
+        <img
+          class="img-fluid"
+          src="{{
+            UserBizzare.data?.photo || 'https://via.placeholder.com/150'
+          }}"
+        />
+      </div>
+      <div class="team-content">
+        <h3 class="name">{{ UserBizzare.data?.nom }}</h3>
+        <h4 class="name">{{ UserBizzare.data?.role }}</h4>
+        <h3 class="name">{{ UserBizzare.data?.email }}</h3>
+        <p>{{ UserBizzare.data?.description }}</p>
+      </div>
+      <div class="bloc__notation">
+        <div class="rating">
+          <input value="5" name="rate" id="star5" type="radio" (click)="showTextareaOnClick()"/>
+          <label title="text" for="star5"></label>
+          <input value="4" name="rate" id="star4" type="radio" (click)="showTextareaOnClick()"/>
+          <label title="text" for="star4"></label>
+          <input value="3" name="rate" id="star3" type="radio" (click)="showTextareaOnClick()"/>
+          <label title="text" for="star3"></label>
+          <input value="2" name="rate" id="star2" type="radio" (click)="showTextareaOnClick()" />
+          <label title="text" for="star2"></label>
+          <input value="1" name="rate" id="star1" type="radio" (click)="showTextareaOnClick()"/>
+          <label title="text" for="star1"></label>
+        </div>      
+      </div>
+      <div class="bloc_form" *ngIf="showTextarea"> 
+        <textarea class="comment-textarea" [(ngModel)]="comment" placeholder="Laissez un commentaire..."></textarea>
+        <button class="submit-button" (click)="submitRating()">Soumettre</button>
+      </div>
+      <ul class="social">
+        <li>
+          <a
+            href="{{
+              UserBizzare.data?.facebook
+                ? UserBizzare.data?.facebook
+                : 'https://www.facebook.com/'
+            }}"
+            target="_blank"
+            aria-hidden="true"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+        </li>
+        <li>
+          <a
+            href="{{
+              UserBizzare.data?.twitter
+                ? UserBizzare.data?.twitter
+                : 'https://twitter.com/'
+            }}"
+            aria-hidden="true"
+            target="_blank"
+            ><i class="fa-brands fa-twitter"></i
+          ></a>
+        </li>
+        <li>
+          <a
+            href="{{
+              UserBizzare.data?.instagram
+                ? UserBizzare.data?.instagram
+                : 'https://www.instagram.com/accounts/emailsignup/'
+            }}"
+            aria-hidden="true"
+            target="_blank"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+        </li>
+        <li>
+          <a
+            href="https://web.whatsapp.com/send/?phone={{
+              UserBizzare.data?.telephone
+            }}&text=Salut%2C+je+suis+int%C3%A9ress%C3%A9+par+votre+evenement"
+            target="_blank"
+            aria-hidden="true"
+          >
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

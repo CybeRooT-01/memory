@@ -1,0 +1,154 @@
+<div>
+  <div class="loader" *ngIf="isLoading"></div>
+  <span class="loader-text">verfication des identifiants...</span>
+</div>
+<div class="container">
+  <div class="forms-container">
+    <div class="signin-signup">
+      <form class="sign-in-form">
+        <h2 class="title">Connectez-vous</h2>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            name="login"
+            [(ngModel)]="login"
+            placeholder="Username"
+          />
+        </div>
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Password"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn solid"
+          (click)="loginUser()"
+          [disabled]="loading"
+        >
+          <span *ngIf="!loading">Connexion</span>
+          <span *ngIf="loading">
+            <i class="fa fa-spinner fa-spin"></i> Chargement...
+          </span>
+        </button>
+        <p class="social-text">Ou connectez-vous grace aux reseaux</p>
+        <div class="social-media">
+          <a href="#" class="social-icon">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-icon">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="#" class="social-icon">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </form>
+      <form [formGroup]="formulaire" class="sign-up-form">
+        <h2 class="title">Creez un compte</h2>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input type="text" placeholder="nom" formControlName="nom" />
+        </div>
+        <div class="input-field">
+          <i class="fas fa-envelope"></i>
+          <input type="email" placeholder="Email" formControlName="email" />
+        </div>
+        <div class="input-field">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <input type="text" placeholder="login" formControlName="login" />
+        </div>
+        <div class="input-field">
+          <i class="fa-solid fa-gear"></i>
+          <select
+            class="input-field"
+            style="margin-top: 0px"
+            name=""
+            id=""
+            formControlName="role"
+          >
+            <option value="">vous etes un ?</option>
+            <option value="1">Organisateur d'evenement</option>
+            <option value="3">Prestataire de Services</option>
+            <option value="4">Service client</option>
+          </select>
+        </div>
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          />
+        </div>
+        <button
+          [disabled]="loading2"
+          type="submit"
+          class="btn solid"
+          value="Inscription"
+          (click)="creercompte()"
+        >
+          <span *ngIf="!loading2">Connexion</span>
+          <span *ngIf="loading2">
+            <i class="fa fa-spinner fa-spin"></i> Chargement...
+          </span>
+        </button>
+        <p class="social-text">Ou connectez-vous grace aux reseaux</p>
+        <div class="social-media">
+          <a href="#" class="social-icon">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-icon">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="#" class="social-icon">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="panels-container">
+    <div class="panel left-panel">
+      <div class="content">
+        <h3>Vous etes nouveau ?</h3>
+        <p>Cliquez sur le bouton ci-dessous pour vous inscrire</p>
+        <button
+          class="btn transparent"
+          id="sign-up-btn"
+          (click)="toggleSignUp()"
+        >
+          Creez un compte
+        </button>
+      </div>
+      <img src="./assets/log.svg" class="image" alt="" draggable="false" />
+    </div>
+    <div class="panel right-panel">
+      <div class="content">
+        <h3>Deja un compte ?</h3>
+        <p>Cliquez sur le bouton ci-dessous pour vous connecter</p>
+        <button
+          class="btn transparent"
+          id="sign-in-btn"
+          (click)="toggleSigngIn()"
+        >
+          conncetez-vous
+        </button>
+      </div>
+      <img src="./assets/register.svg" class="image" alt="" draggable="false" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+::ng-deep :root {
+  --light: #f6f6f9;
+  --primary: #1976d2;
+  --light-primary: #cfe8ff;
+  --grey: #eee;
+  --dark-grey: #aaaaaa;
+  --dark: #363949;
+  --danger: #d32f2f;
+  --light-danger: #fecdd3;
+  --warning: #fbc02d;
+  --light-warning: #fff2c6;
+  --success: #388e3c;
+  --light-success: #bbf7d0;
+}
+* {
+  color: var(--dark);
+}
+.container {
+  box-shadow:  0px 0px 10px 10px rgba(241, 239, 239, 0.1);
+}
+.formulaire {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+
+.ligne {
+  display: flex;
+  justify-content: space-between;
+  /* margin-bottom: 20px; */
+}
+
+.input-group,
+.glisser-deposer {
+  width: calc(30% - 10px);
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  outline: none;
+  border: none;
+  /* border: 1px solid #ccc; */
+  border-radius: 4px;
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+label {
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+input[type="file"] {
+  cursor: pointer;
+}
+
+/*  */
+.dragger_container{
+  display: flex;
+  margin-left: -30px;
+  height: 400px;
+}
+#dragger_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+#dragger {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 2px dashed var(--dark);
+    border-radius: 5px;
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+#dragger.active {
+    border: 2px dashed #000000;
+}
+
+#dragger img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+#filename {
+    width: 100%;
+}
+
+.fileName {
+    padding: 5px;
+    width: 100%;
+    margin: 10px 0 0 0;
+    color: var(--dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fa-trash-can {
+    color: red;
+    cursor: pointer;
+}
+
+.icon {
+    color: var(--dark);
+    font-size: 40px;
+    margin: 10px 0;
+}
+
+h2,
+h3 {
+    margin: 5px 0;
+    color: var(--dark);
+}
+
+button {
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--dark);
+    color: var(--light);
+    outline: none;
+    cursor: pointer;
+}
+.image-preview-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-preview {
+  max-width: 100px;
+  margin-left: 10px;
+}
+
+.btn {
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: white;
+  height: 40px;
+  width: 100px;
+  float: right;
+}

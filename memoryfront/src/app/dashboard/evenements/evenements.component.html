@@ -1,0 +1,283 @@
+<div class="mother_div">
+  <div
+    *ngIf="userlogged?.data?.role === 'Organisateur d\'Événements'"
+    class="flex items-center ps-4 border-gray-200 rounded dark:border-gray-700 mt-[-40px]"
+  >
+    <input
+      (change)="getAllEvents()"
+      id="bordered-radio-2"
+      type="radio"
+      value=""
+      name="bordered-radio"
+      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+    />
+    <label
+      for="bordered-radio-2"
+      class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+      >Tout les evenements</label
+    >
+  </div>
+  <div
+    *ngIf="userlogged?.data?.role === 'Organisateur d\'Événements'"
+    class="flex items-center ps-4 border-gray-200 rounded dark:border-gray-700 mt-[-40px]"
+  >
+    <input
+      (change)="getMyEvents()"
+      id="bordered-radio-2"
+      type="radio"
+      value=""
+      name="bordered-radio"
+      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+    />
+    <label
+      for="bordered-radio-2"
+      class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+      >mes evenements</label
+    >
+  </div>
+  <div class="form-input">
+    <input
+      type="search"
+      placeholder="rechercher un evnement"
+      (input)="searchEvent($event)"
+    />
+  </div>
+</div>
+<div class="body">
+  <ng-container *ngIf="evenements.length === 0">
+    <div class="skeleton"></div>
+    <div class="not_found">
+      <h1>aucun evenement trouvé</h1>
+    </div>
+  </ng-container>
+  <div class="flex flex-wrap -mx-4">
+    <div class="w-full md:w-1/3 px-4 mb-4" *ngFor="let event of evenements">
+      <div
+        class="relative flex flex-col min-w-0 rounded break-words card border-1 border-gray-300 h-[230px]"
+      >
+        <div class="py-3 px-6 mb-0 border-b-1 border-gray-300">
+          {{ event.nom }}
+        </div>
+        <div class="flex-auto p-6">
+          <h5 class="mb-3">
+            {{ event.type_evenement }} - {{ event.date }} - {{ event.lieu }}
+          </h5>
+          <p>
+            créé par
+            <a
+              [routerLink]="['/profil', event.createur.identifiant_bizzare]"
+              style="color: rgb(72, 72, 198)"
+              >{{ event.createur.name }}</a
+            >
+          </p>
+          <p class="mb-0">{{ event.description.slice(0, 20) }}...</p>
+          <div class="btngroup">
+            <button
+              (click)="openDemandeModal(event)"
+              class="btn"
+              *ngIf="
+                userlogged?.data?.role === 'Prestataire de Services' &&
+                event.date > today
+              "
+            >
+              Demander Participer
+            </button>
+            <button (click)="openModal(event)" class="btn detail">
+              Detail
+            </button>
+            <button
+              (click)="openUpdateModal(event)"
+              class="btn update"
+              *ngIf="isMyEvent(event)"
+            >
+              modifier
+            </button>
+            <button
+              (click)="openSuppModal(event)"
+              class="btn delete"
+              *ngIf="isMyEvent(event)"
+            >
+              supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="" *ngIf="selectedEvent" style="z-index: 10000">
+  <div class="modal-overlay"></div>
+  <div class="modal_detail">
+    <h2 style="text-align: center; text-decoration: underline">
+      Description de L'evenement
+    </h2>
+    <div class="coatainer">
+      <p>nom: {{ selectedEvent.nom }}</p>
+      <p>type: {{ selectedEvent.type_evenement }}</p>
+      <p>date: {{ selectedEvent.date }}</p>
+      <p>lieu: {{ selectedEvent.lieu }}</p>
+      <p>description: {{ selectedEvent.description }}</p>
+      <p>créé par: {{ selectedEvent.createur.name }}</p>
+    </div>
+    <button (click)="closeModal()" class="close">fermer</button>
+  </div>
+</div>
+
+<!-- Modal de confirmation -->
+<div class="modal_detail_supp" id="confirmationModal" *ngIf="SuppSelectedEvent">
+  <div class="modal-overlay"></div>
+  <div class="modal-content">
+    <h2>Confirmation de suppression</h2>
+    <h4 style="margin-top: 50px">
+      Voulez-vous supprimer l'événement {{ SuppSelectedEvent.nom }} ?
+    </h4>
+    <div class="modal-buttons">
+      <button class="btn cancel" (click)="closeSuppModal()">Annuler</button>
+      <button class="btn delete" (click)="deleteEVent(SuppSelectedEvent.id)">
+        Supprimer
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de demande de participation-->
+<div class="modal_detail_supp" id="confirmationModal" *ngIf="demandeParticip">
+  <div class="modal-overlay"></div>
+  <div class="modal-content">
+    <h2>Confirmation demande participation</h2>
+    <h4 style="margin-top: 50px">
+      Voulez-vous Demander de participer à l'événement
+      {{ demandeParticip.nom }} ?
+    </h4>
+
+    <label
+      for="message"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >Commentaire (optionnel)</label
+    >
+    <textarea
+      [(ngModel)]="commentaire"
+      id="message"
+      rows="4"
+      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      placeholder=" Votre comentaire ici"
+    ></textarea>
+
+    <div class="modal-buttons" style="margin-top: 10px">
+      <button
+        style="background-color: red"
+        class="btn"
+        (click)="closeDemandeModal()"
+      >
+        Annuler
+      </button>
+      <button class="btn" (click)="demandeParticipation(demandeParticip.id)">
+        demander
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de modification d'événement -->
+<div
+  class="modal-modification"
+  id="modificationModal"
+  *ngIf="updateSelectedEvent"
+>
+  <div class="modal-overlay"></div>
+  <div class="modal-detail-update">
+    <h2>Modifier l'événement</h2>
+    <form
+      *ngIf="updateSelectedEvent"
+      class="form-two-inputs-per-row"
+      [formGroup]="formulaire"
+    >
+      <div class="two-inputs-row">
+        <mat-form-field class="example-half-width">
+          <mat-label>nom</mat-label>
+          <input
+            matInput
+            placeholder="nom"
+            id="nom"
+            formControlName="nom"
+            #nom
+          />
+        </mat-form-field>
+        <mat-form-field style="width: 270px">
+          <input
+            (dateChange)="checkdate($event)"
+            placeholder="choisissez une date"
+            (input)="deleteAll($event)"
+            matInput
+            [matDatepicker]="picker"
+            formControlName="date"
+            #date
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-error *ngIf="formulaire.get('date')?.hasError('dateInvalide')"
+          >La date doit être supérieure à la date actuelle.</mat-error
+        >
+      </div>
+
+      <div class="two-inputs-row">
+        <mat-form-field class="example-half-width">
+          <mat-label>lieu</mat-label>
+          <input matInput placeholder="lieu" formControlName="lieu" #lieu />
+        </mat-form-field>
+        <mat-form-field style="width: 270px">
+          <input
+            (input)="checktime($event)"
+            matInput
+            name="selected_time_B"
+            [ngxMatTimepicker]="pickerB"
+            placeholder="choisissez une heure"
+            format="24.0"
+            readonly
+            formControlName="heure"
+            #heure
+          />
+          <mat-icon matSuffix (click)="pickerB.open()"> </mat-icon>
+          <ngx-mat-timepicker color="primary" #pickerB></ngx-mat-timepicker>
+        </mat-form-field>
+      </div>
+      <div class="two-inputs-row">
+        <mat-form-field class="example-half-width">
+          <mat-label>type evenement</mat-label>
+          <input
+            matInput
+            placeholder="type d'evenement"
+            formControlName="type_evenement"
+            #type_evenement
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-half-width">
+          <mat-label>description</mat-label>
+          <textarea
+            matInput
+            placeholder="description"
+            formControlName="description"
+            #description
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <div class="modal-buttons-update">
+        <button class="btn cancel" (click)="closeUpdateModal($event)">
+          Annuler
+        </button>
+        <button
+          [disabled]="!isModified"
+          class="btn update"
+          (click)="updateEvent(updateSelectedEvent.id)"
+        >
+          Modifier
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

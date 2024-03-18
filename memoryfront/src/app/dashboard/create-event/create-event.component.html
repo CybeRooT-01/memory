@@ -1,0 +1,151 @@
+<div class="body">
+  <mat-stepper [linear]="isLinear" #stepper class="stepper">
+    <!-- Étape 1 -->
+    <mat-step
+      [stepControl]="firstFormGroup"
+      errorMessage=" Les champs sont obligatoire"
+    >
+      <ng-template matStepLabel
+        ><span class="header">Information sur l'evenement</span></ng-template
+      >
+      <form [formGroup]="firstFormGroup" class="form-container">
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input
+            matInput
+            formControlName="nom"
+            placeholder="Nom de l'événement"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Choisissez une date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="date"
+            [readonly]="readonlyDate"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-error *ngIf="firstFormGroup.get('date')?.hasError('dateInvalide')"
+          >La date doit être supérieure à la date actuelle.</mat-error
+        >
+        <div>
+          <button
+            mat-button
+            matStepperNext
+            class="btn_stepper"
+            style="color: white"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Étape 2 -->
+    <mat-step
+      [stepControl]="secondFormGroup"
+      errorMessage=" Les champs sont obligatoire"
+    >
+      <ng-template matStepLabel
+        ><span class="header">Plus d'informations</span></ng-template
+      >
+      <form [formGroup]="secondFormGroup" class="form-container">
+        <mat-form-field>
+          <input
+            matInput
+            formControlName="heure"
+            name="selected_time_B"
+            [ngxMatTimepicker]="pickerB"
+            placeholder="08:00"
+            format="24.0"
+            readonly
+          />
+          <mat-icon matSuffix (click)="pickerB.open()"> </mat-icon>
+        </mat-form-field>
+        <ngx-mat-timepicker color="primary" #pickerB></ngx-mat-timepicker>
+        <mat-form-field>
+          <mat-label>Lieu</mat-label>
+          <input
+            matInput
+            formControlName="lieu"
+            placeholder="Lieu de l'événement"
+            required
+          />
+        </mat-form-field>
+        <div>
+          <button
+            mat-button
+            matStepperPrevious
+            class="btn_stepper"
+            style="color: white"
+          >
+            Précédent
+          </button>
+          <button
+            mat-button
+            matStepperNext
+            class="btn_stepper"
+            style="color: white; margin-left: 10px"
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Étape 3 -->
+    <mat-step
+      [stepControl]="thirdFormGroup"
+      errorMessage=" Les deux champs sont obligatoire"
+    >
+      <ng-template matStepLabel>
+        <span class="header">Description</span></ng-template
+      >
+      <form [formGroup]="thirdFormGroup" class="form-container">
+        <mat-form-field>
+          <mat-label>Type d'événement</mat-label>
+          <input
+            matInput
+            formControlName="type_evenement"
+            placeholder="Type d'événement"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Description de l'événement"
+            required
+          ></textarea>
+        </mat-form-field>
+        <div>
+          <button
+            mat-button
+            matStepperPrevious
+            class="btn_stepper"
+            style="color: white"
+          >
+            Précédent
+          </button>
+          <button
+            mat-button
+            class="btn_stepper"
+            style="color: white; margin-left: 10px"
+            [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid"
+            (click)="ajouterEvent()"
+          >
+            Enregistrer
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>

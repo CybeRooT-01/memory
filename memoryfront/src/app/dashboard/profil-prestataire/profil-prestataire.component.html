@@ -1,0 +1,225 @@
+<div class="container">
+  <form [formGroup]="formulaire">
+    <div class="formulaire">
+      <div class="ligne">
+        <div class="input-group">
+          <label for="nom">Nom :</label>
+          <input
+            type="text"
+            id="nom"
+            name="nom"
+            placeholder="Entrez votre nom"
+            formControlName="nom"
+            [value]="loggedPrestataire?.nom"
+          />
+        </div>
+        <div class="input-group">
+          <label for="service">Service :</label>
+          <input
+            type="text"
+            id="service"
+            name="service"
+            placeholder="Entrez votre service"
+            formControlName="service"
+            [value]="loggedPrestataire?.services"
+          />
+        </div>
+        <div class="input-group">
+          <label for="tarif">Tarif :</label>
+          <input
+            type="number"
+            id="tarif"
+            name="tarif"
+            placeholder="Entrez votre tarif"
+            formControlName="tarifs"
+            [value]="loggedPrestataire?.tarif"
+          />
+        </div>
+      </div>
+      <h2 style="text-align: center; margin-top: 30px">
+        deposez vos photos qui illustre vos evenements
+      </h2>
+      <div class="ligne">
+        <div class="dragger_container">
+          <div id="dragger_wrapper">
+            <div
+              id="dragger"
+              [ngStyle]="{
+                'padding-top':
+                  !selectedFile1 && loggedPrestataire == undefined
+                    ? '10px'
+                    : '0px'
+              }"
+            >
+              <img
+                [ngStyle]="{
+                  top:
+                    !selectedFile1 && loggedPrestataire == undefined
+                      ? '10px'
+                      : '0px'
+                }"
+                height="200px"
+                style="position: relative; top: 100px"
+                [src]="
+                  loggedPrestataire?.photo1
+                    ? loggedPrestataire?.photo1
+                    : imageUrl1
+                "
+                alt="Preview"
+                *ngIf="selectedFile1 || loggedPrestataire?.photo1"
+              />
+              <div
+                class="icon"
+                *ngIf="!selectedFile1 && !loggedPrestataire?.photo1"
+              >
+                <i
+                  *ngIf="!selectedFile1 && !loggedPrestataire?.photo1"
+                  class="fa-solid fa-images"
+                ></i>
+              </div>
+              <h2
+                id="drag-text"
+                *ngIf="!selectedFile1 && !loggedPrestataire?.photo1"
+              >
+                Choisir un fichier
+              </h2>
+              <h3 *ngIf="!selectedFile1 && !loggedPrestataire?.photo1">Or</h3>
+              <button
+                class="browseFile"
+                id="browseFile"
+                (click)="simulateFileInput($event)"
+              >
+                Choisir
+              </button>
+              <input
+                type="file"
+                hidden
+                id="fileInputField"
+                #fileInputField
+                (change)="onFileSelected1($event)"
+                formControlName="photo1"
+              />
+            </div>
+          </div>
+          <!--  -->
+          <div id="dragger_wrapper">
+            <div
+              id="dragger"
+              [ngStyle]="{
+                'padding-top':
+                  !selectedFile2 && loggedPrestataire == undefined
+                    ? '10px'
+                    : '0px'
+              }"
+            >
+              <img
+                [ngStyle]="{
+                  top:
+                    !selectedFile2 && loggedPrestataire == undefined
+                      ? '10px'
+                      : '0px'
+                }"
+                height="200px"
+                style="position: relative; top: 100px"
+                [src]="
+                  loggedPrestataire?.photo2
+                    ? loggedPrestataire?.photo2
+                    : imageUrl2
+                "
+                alt="Preview"
+                *ngIf="selectedFile2 || loggedPrestataire?.photo2"
+              />
+              <div
+                class="icon"
+                *ngIf="!selectedFile2 && !loggedPrestataire?.photo2"
+              >
+                <i
+                  *ngIf="!selectedFile2 && !loggedPrestataire?.photo2"
+                  class="fa-solid fa-images"
+                ></i>
+              </div>
+              <h2
+                id="drag-text"
+                *ngIf="!selectedFile2 && !loggedPrestataire?.photo2"
+              >
+                Choisir un fichier
+              </h2>
+              <h3 *ngIf="!selectedFile2 && !loggedPrestataire?.photo2">Or</h3>
+              <button
+                class="browseFile"
+                id="browseFile"
+                (click)="simulateFileInput2($event)"
+              >
+                Choisir
+              </button>
+              <input
+                type="file"
+                hidden
+                id="fileInputField"
+                #fileInputField2
+                (change)="onFileSelected2($event)"
+                formControlName="photo2"
+              />
+            </div>
+          </div>
+          <!--  -->
+          <div id="dragger_wrapper">
+            <div
+              id="dragger"
+              [ngStyle]="{ 'padding-top': !selectedFile3 && loggedPrestataire == undefined ? '10px' : '0px' }"
+            >
+              <img
+                [ngStyle]="{ top: !selectedFile3 && loggedPrestataire == undefined ? '10px' : '0px' }"
+                height="200px"
+                style="position: relative; top: 100px"
+                [src]="
+                  loggedPrestataire?.photo3
+                    ? loggedPrestataire?.photo3
+                    : imageUrl3
+                "
+                alt="Preview"
+                *ngIf="selectedFile3 || loggedPrestataire?.photo3"
+              />
+              <div class="icon" *ngIf="!selectedFile3 && !loggedPrestataire?.photo3">
+                <i *ngIf="!selectedFile3 && !loggedPrestataire?.photo3" class="fa-solid fa-images"></i>
+              </div>
+              <h2 id="drag-text" *ngIf="!selectedFile3 && !loggedPrestataire?.photo3">Choisir un fichier</h2>
+              <h3 *ngIf="!selectedFile3 && !loggedPrestataire?.photo3">Or</h3>
+              <button
+                class="browseFile"
+                id="browseFile"
+                (click)="simulateFileInput3($event)"
+              >
+                Choisir
+              </button>
+              <input
+                type="file"
+                hidden
+                id="fileInputField"
+                #fileInputField3
+                (change)="onFileSelected3($event)"
+                formControlName="photo3"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        [disabled]="formulaire.invalid && loggedPrestataire == undefined"
+        [ngStyle]="{
+          transparent: formulaire.invalid && loggedPrestataire == undefined
+        }"
+        [ngStyle]="{
+          cursor:
+            formulaire.invalid && loggedPrestataire == undefined
+              ? 'not-allowed'
+              : 'pointer'
+        }"
+        (click)="enregistrer()"
+        class="btn detail"
+      >
+        Enregistrer
+      </button>
+    </div>
+  </form>
+</div>

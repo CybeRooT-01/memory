@@ -1,0 +1,209 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+  />
+</head>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <!-- text-gray-500 dark:text-gray-400 -->
+  <table
+    class="w-full text-sm text-left rtl:text-right "
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase">
+      <tr>
+        <th scope="col" class="px-6 py-3">nom</th>
+        <th scope="col" class="px-6 py-3">service</th>
+        <th scope="col" class="px-6 py-3">tarif</th>
+        <th scope="col" class="px-6 py-3">evenement</th>
+        <th scope="col" class="px-6 py-3">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let demande of demandeParticipation; let i = index"
+      >
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{ demande.reservation.prestataire.nom }}
+        </th>
+        <td class="px-6 py-4">
+          {{ demande.reservation.prestataire.services }}
+        </td>
+        <td class="px-6 py-4">
+          {{ demande.reservation.prestataire.tarif }} CFA
+        </td>
+        <td class="px-6 py-4">{{ demande.reservation.evenement.nom }}</td>
+        <td class="px-6 py-4 flex justify-around">
+          <i
+            data-bs-toggle="modal"
+            [attr.data-bs-target]="'#confirmacceptModalLabel' + i"
+            class="fa-solid fa-check text-2xl cursor-pointer"
+            style="color: #17e83a"
+            title="Valider"
+          ></i>
+          <i
+            data-bs-toggle="modal"
+            [attr.data-bs-target]="'#confirmrejetModalLabel' + i"
+            class="fa-solid fa-x text-2xl cursor-pointer"
+            style="color: #e50b0b"
+            title="rejetter"
+          ></i>
+        </td>
+        <!-- modal pour confirmer acceptation -->
+        <div
+          class="modal fade 0"
+          [id]="'confirmacceptModalLabel' + i"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+      
+        >
+          <div class="modal-dialog">
+            <div class="modal-content mdal" >
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmacceptModalLabel">
+                  Voulez vous confirmer ?
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div
+                class="modal-body"
+                style="
+                  max-width: 500px;
+                  white-space: pre-wrap;
+                  overflow-x: clip;
+                "
+              >
+                Etes vous sur de vouloir accepter la demande de
+                {{ demande.reservation.prestataire.nom }} ?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="bg-blue-700 text-white w-[100px] h-[40px] rounded-2"
+                  data-bs-dismiss="modal"
+                  (click)="valider(demande.id)"
+                >
+                  valider
+                </button>
+                <button
+                  type="button"
+                  class="bg-red-700 text-white w-[100px] h-[40px] rounded-2"
+                  data-bs-dismiss="modal"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--      Modal pour confirmer la rejet-->
+        <div
+          class="modal fade"
+          [id]="'confirmrejetModalLabel' + i"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog mdal">
+            <div class="modal-content mdal">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmrejetModalLabel">
+                  Voulez vous confirmer ?
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div
+                class="modal-body"
+                style="
+                  max-width: 500px;
+                  white-space: pre-wrap;
+                  overflow-x: clip;
+                "
+              >
+                Etes vous sur de vouloir rejetter la demande de
+                {{ demande.reservation.prestataire.nom }} ?
+              </div>
+              <div class="modal-footer">
+                <button
+                (click)="refuser(demande.id)"
+                  type="button"
+                  class="bg-blue-700 text-white w-[100px] h-[40px] rounded-2"
+                  data-bs-dismiss="modal"
+                  s
+                >
+                  valider
+                </button>
+                <button
+                  type="button"
+                  class="bg-red-700 text-white w-[100px] h-[40px] rounded-2"
+                  data-bs-dismiss="modal"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal du motif -->
+        <div
+          class="modal fade"
+          [id]="'exampleModal' + i"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Motif de la demande
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div
+                class="modal-body"
+                style="
+                  max-width: 500px;
+                  white-space: pre-wrap;
+                  overflow-x: scroll;
+                "
+              >
+                {{ demande }}
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="bg-red-700 text-white w-[100px] h-[40px] rounded-2"
+                  data-bs-dismiss="modal"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>

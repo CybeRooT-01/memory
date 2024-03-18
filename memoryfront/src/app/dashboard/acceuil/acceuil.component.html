@@ -1,0 +1,12 @@
+<div style="display: flex; justify-content: space-between">
+  <div style="width: 48%">
+    <canvas #myChart width="200" height="200"></canvas>
+  </div>
+  <div
+    style="width: 48%"
+    [hidden]="
+      userLogged.data?.role !== 'Organisateur d\'Événements'"
+  >
+    <canvas #myChart2 width="200" height="200"></canvas>
+  </div>
+</div>
