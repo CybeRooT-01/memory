@@ -45,7 +45,9 @@
           "></i>Demandes Participations</a
         >
       </li>
-      <li  [class.active]="isActive('prestataires')"
+      <li
+      *ngIf="userLogged.data?.role == 'Organisateur d\'Événements'"
+      [class.active]="isActive('prestataires')"
         (click)="setActive('prestataires')"
         >
         <a routerLink="/prestataires"><i class="bx bx-chat"></i>Prestataires</a>

@@ -30,7 +30,8 @@ export class RoleOrganisateurGuards implements CanActivate {
         if (
           !hasPermission &&
           (state.url === '/create-event' ||
-            state.url === '/demande-participation')
+            state.url === '/demande-participation' ||
+            state.url==="/prestataires")
         ) {
           this.router.navigate(['/404']);
         }

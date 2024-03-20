@@ -28,11 +28,14 @@ export class InvitationPrestataireComponent implements OnInit{
     this.sharedservice.userData$.subscribe((userData: LoggedUser) => {
       this.user_id = userData.data?.id;
       console.log(this.user_id);
+      this.getstuff()
+    });
+  }
 
-      this.prestataireservice.getInvitations(this.user_id).subscribe((response: any) => {
-        this.invitation = response.data;
-        console.log(this.invitation);
-      });
+  getstuff(){
+    this.prestataireservice.getInvitations(this.user_id).subscribe((response: any) => {
+      this.invitation = response.data;
+      console.log(this.invitation);
     });
   }
 
@@ -40,6 +43,7 @@ export class InvitationPrestataireComponent implements OnInit{
     this.prestataireservice.acceptInvitation(id).subscribe((response: any) => {
       if(response.statut === 200){
         console.log(response.statut);
+        this.getstuff()
       }
     }, (error) => {
       console.log(error);
@@ -50,6 +54,8 @@ export class InvitationPrestataireComponent implements OnInit{
     this.prestataireservice.refuseInvitation(id).subscribe((response: any) => {
       if(response.statut === 200){
         console.log(response.statut);
+        this.getstuff()
+        
       }
     }, (error) => {
       console.log(error);

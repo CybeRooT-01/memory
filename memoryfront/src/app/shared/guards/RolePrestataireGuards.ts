@@ -26,7 +26,7 @@ export class RolePrestataireGuards implements CanActivate {
         const hasPermission = allowedRoles.some((role) =>
           userRoles.includes(role)
         );
-        if (!hasPermission && state.url === '/profil-prestataire') {
+        if (!hasPermission && state.url === '/profil-prestataire' ) {
           this.router.navigate(['/404']);
         }
         return hasPermission;

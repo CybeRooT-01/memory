@@ -50,6 +50,8 @@ export class PrestatairesComponent {
         return evenement.createur.id === this.user_id;
       });
       console.log(this.evenements);
+      console.log(this.user_id);
+      
       
     });
   }
@@ -71,6 +73,7 @@ export class PrestatairesComponent {
       if(response.status === 201){
         this.toastr.success('Invitation envoyée avec succès');
         this.message = '';
+        this.ngOnInit()
       }
     }, (error) => {
       this.toastr.error(error.error.message);

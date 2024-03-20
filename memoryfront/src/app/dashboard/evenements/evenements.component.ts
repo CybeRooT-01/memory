@@ -228,7 +228,7 @@ export class EvenementsComponent implements OnInit {
     let data: any = {
       id: id,
       nom: this.formulaire.value.nom,
-      date: this.formulaire.value.date.toISOString().split('T')[0],
+      date: this.formulaire.value.date,
       heure: this.formulaire.value.heure,
       lieu: this.formulaire.value.lieu,
       type_evenement: this.formulaire.value.type_evenement,

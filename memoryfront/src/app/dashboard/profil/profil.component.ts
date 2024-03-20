@@ -11,9 +11,11 @@ import { NotationService } from 'src/app/services/notation.service';
 })
 export class ProfilComponent implements OnInit {
   UserBizzare: LoggedUser = {};
+  uuid: any
   UserConnected: LoggedUser = {};
   showTextarea = false;
   comment: string = '';
+  note:number | undefined
   constructor(
     private authservice: AuthService,
     private notationservice: NotationService,
@@ -28,11 +30,17 @@ export class ProfilComponent implements OnInit {
       .getUserByIdBizzare(parambizzare)
       .subscribe((response: LoggedUser) => {
         console.log(response);
+        this.uuid = response.data?.id
         this.UserBizzare = response;
       });
 
       this.authservice.getCurrentUser().subscribe((response: LoggedUser) => {
         this.UserConnected = response;
+        this.notationservice.getById(this.uuid).subscribe((response:any)=>{
+          this.note = response.note
+          console.log(this.note);
+          
+        })
       });
 
     const bootstrapScript = document.createElement('script');
@@ -40,6 +48,9 @@ export class ProfilComponent implements OnInit {
       'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
     bootstrapScript.async = true;
     document.body.appendChild(bootstrapScript);
+    console.log(this.uuid);
+    
+      
   }
 
   showTextareaOnClick() {

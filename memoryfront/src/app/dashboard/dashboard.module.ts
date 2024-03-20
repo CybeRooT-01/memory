@@ -64,6 +64,7 @@ const authRoutes: Routes = [
       {
         path: 'prestataires',
         component: PrestatairesComponent,
+        canActivate: [RoleOrganisateurGuards],
       },
       {
         path: 'invitation-prestataire',
