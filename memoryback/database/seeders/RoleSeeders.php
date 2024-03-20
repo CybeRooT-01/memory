@@ -22,10 +22,6 @@ class RoleSeeders extends Seeder
                 'libelle' => "Prestataire de Services",
                 'description' => "Prestataire de Services"
             ],
-            [
-                'libelle' => "Service Client",
-                'description' => "Service Client"
-            ],
         ];
         Role::insert($roles);
     }

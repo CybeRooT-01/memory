@@ -2,29 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DemandeParticipationPostRequest;
-use App\Http\Resources\DemandeParticipationResource;
-use App\Http\Resources\ReservationResource;
-use App\Mail\AcceptationParticipationMail;
-use App\Mail\RefusParticipationMail;
-use App\Models\DemandeParticipation;
+use Dompdf\Dompdf;
+use App\Models\User;
 use App\Models\Prestataire;
 use App\Models\Reservation;
-use App\Models\User;
-use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Mail\RefusParticipationMail;
+use App\Models\DemandeParticipation;
 use Illuminate\Support\Facades\Mail;
+use App\traits\NotFoundResponseTrait;
+use App\Mail\AcceptationParticipationMail;
+use App\Http\Resources\ReservationResource;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Http\Resources\DemandeParticipationResource;
+use App\Http\Requests\DemandeParticipationPostRequest;
+use App\traits\RadarTrait;
 
 class DemandeParticipationController extends Controller
 {
+    use RadarTrait;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $demandes = DemandeParticipation::where("etat", "en attente")->get();
+        $this->tracerAction('Liste des demandes de participation');
         return response()->json(DemandeParticipationResource::collection($demandes), 200);
     }
 
@@ -34,7 +38,6 @@ class DemandeParticipationController extends Controller
     public function store(DemandeParticipationPostRequest $request)
     {
         $allDemandes = DemandeParticipation::all();
-
         $prestataireID = $request->prestataire_id;
         $evenementID = $request->evenement_id;
 
@@ -59,6 +62,7 @@ class DemandeParticipationController extends Controller
             DB::rollBack();
             return response()->json(["message" => "Une erreur est survenue lors de la création de la demande de participation"], 500);
         }
+        $this->tracerAction('Demande de participation');
         return response()->json(["message" => "Demande de participation créée avec succès"], 201);
     }
 
@@ -96,6 +100,7 @@ class DemandeParticipationController extends Controller
         $demande->update([
             "etat" => "acceptée",
         ]);
+        $this->tracerAction('Acceptation de la demande de participation');
         return response()->json(['message' => 'Demande de participation acceptée'], 200);
     }
     /**
@@ -119,6 +124,7 @@ class DemandeParticipationController extends Controller
         ]);
         $reservation->delete();
         $demande->delete();
+        $this->tracerAction('Refus de la demande de participation');
         return response()->json(['message' => 'Demande de participation refusée'], 200);
     }
 }

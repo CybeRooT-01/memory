@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notation;
 use App\Models\User;
+use App\Models\Notation;
+use Mockery\Matcher\Not;
+use App\traits\RadarTrait;
 use Illuminate\Http\Request;
 use App\traits\NotFoundResponseTrait;
-use Mockery\Matcher\Not;
 
 class NotationController extends Controller
 {
-    use NotFoundResponseTrait;
+    use NotFoundResponseTrait, RadarTrait;
     /**
      * Display a listing of the resource.
      */
@@ -42,6 +43,7 @@ class NotationController extends Controller
                 'note' => $request->input('note'),
                 'commentaire' => $request->input('commentaire')
             ]);
+            $this->tracerAction('Mise à jour de la notation d\'un prestataire');
             return response()->json(['message' => 'Notation mise à jour avec succès', 'status' => 200]);
         }
         $note = $request->input('note');
@@ -52,6 +54,7 @@ class NotationController extends Controller
             'note' => $note,
             'commentaire' => $commentaire
         ]);
+        $this->tracerAction('Notation d\'un prestataire');
         return response()->json(['message' => 'Notation enregistrée avec succès', 'status' => 201]);
     }
 

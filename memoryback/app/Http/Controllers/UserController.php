@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserPutRequest;
-use App\Http\Resources\PrestataireResource;
-use App\Http\Resources\UserRessource;
-use App\Models\Prestataire;
 use App\Models\User;
+use App\traits\RadarTrait;
+use App\Models\Prestataire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UserPutRequest;
+use App\Http\Resources\UserRessource;
+use App\Http\Resources\PrestataireResource;
 
 class UserController extends Controller
 {
+    use RadarTrait;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $users = User::all();
+        $this->tracerAction('Liste des utilisateurs');
         return UserRessource::collection($users);
     }
 
@@ -34,8 +37,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = null;
-
+        $user = new User();
         $allUsers = User::all();
         foreach ($allUsers as $u) {
             if ($u->email == $request->email) {
@@ -57,6 +59,7 @@ class UserController extends Controller
                 'identifiant_bizzare' => $hashedString,
             ]);
         });
+        $this->tracerAction('Création d\'un utilisateur');
 
         $token = $user->createToken('auth_token')->accessToken;
         $user->token = $token;
@@ -73,6 +76,7 @@ class UserController extends Controller
             if (!$user) {
                 return response()->json(['message' => 'User not found'], 404);
             }
+            $this->tracerAction('Affichage d\'un utilisateur');
             return  new UserRessource($user);
         }
 
@@ -102,6 +106,7 @@ class UserController extends Controller
             $user->telephone = $request->telephone;
             $user->save();
         });
+        $this->tracerAction('Mise à jour d\'un utilisateur');
 
         return response()->json([
             'message' => 'User updated successfully'
@@ -113,16 +118,19 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->tracerAction('Suppression d\'un utilisateur');
         $user->delete();
     }
     public function allusers()
     {
         $users = User::all();
+        $this->tracerAction('Liste des utilisateurs');
         return $users;
     }
 
     public function getuserPrestataires(){
         $prestataires = Prestataire::all();
+        $this->tracerAction('Liste des prestataires');
         return PrestataireResource::collection($prestataires);
     }
 }

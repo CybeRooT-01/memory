@@ -6,17 +6,19 @@ use App\Http\Requests\EvenementPostRequest;
 use App\Http\Resources\EvenementResource;
 use App\Models\Evenement;
 use App\traits\NotFoundResponseTrait;
+use App\traits\RadarTrait;
 use Illuminate\Http\Request;
 
 class EvenementController extends Controller
 {
-    use NotFoundResponseTrait;
+    use NotFoundResponseTrait, RadarTrait;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $allEvents = EvenementResource::collection(Evenement::all());
+        $this->tracerAction('Liste des evenements');
         return response()->json($allEvents, 200);
     }
 
@@ -34,6 +36,7 @@ class EvenementController extends Controller
             'description' => $request->description,
             'user_id' => $request->user_id,
         ]);
+        $this->tracerAction('Création d\'un evenement');
         return response()->json(['message' => 'Evenement créé','status' => 201], 201);
     }
 
@@ -43,6 +46,7 @@ class EvenementController extends Controller
     public function show(string $id)
     {
         $event = Evenement::find($id);
+        $this->tracerAction('Affichage d\'un evenement');
         if (!$event) {
             return response()->json(['message' => 'Evenement non trouvé'], 404);
         }
@@ -67,6 +71,7 @@ class EvenementController extends Controller
             'description' => $request->description,
             'user_id' => $request->user_id,
         ]);
+        $this->tracerAction('Modification d\'un evenement');
         return response()->json(['message' => 'Evenement modifié', 'status'=>200], 200);
     }
 
@@ -80,16 +85,17 @@ class EvenementController extends Controller
             return response()->json(['message' => 'Evenement non trouvé'], 404);
         }
         $event->delete();
+        $this->tracerAction('Suppression d\'un evenement');
         return response()->json(['message' => 'Evenement supprimé', 'status'=>200], 200);
     }
 
     public function getuserEvenements(string $id)
     {
         $userEvents = EvenementResource::collection(Evenement::where('user_id', $id)->get());
-
         if ($userEvents->isEmpty()) {
             return $this->notFoundResponse('Evenements non trouvés');
         }
+        $this->tracerAction('Liste des evenements d\'un utilisateur');
         return response()->json($userEvents, 200);
     }
 }

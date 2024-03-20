@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ReservationResource;
+use App\traits\RadarTrait;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Http\Resources\ReservationResource;
 
 class ReservationController extends Controller
 {
+    use RadarTrait;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $reservation = Reservation::all();
+        $this->tracerAction('Liste des réservations');
         return response()->json(ReservationResource::collection($reservation), 200);
     }
 

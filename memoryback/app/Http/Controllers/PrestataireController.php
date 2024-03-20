@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Evenement;
+use App\traits\RadarTrait;
 use App\Models\Prestataire;
 use Illuminate\Http\Request;
 use App\Mail\InvitationEventMail;
@@ -16,12 +17,13 @@ use App\Http\Requests\PrestatairePostRequest;
 
 class PrestataireController extends Controller
 {
-    use NotFoundResponseTrait;
+    use NotFoundResponseTrait, RadarTrait;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->tracerAction('Liste des prestataires');
         return PrestataireResource::collection(Prestataire::all());
     }
 
@@ -44,6 +46,7 @@ class PrestataireController extends Controller
                     "photo3" => $request->photo3,
                     "user_id" => $request->user_id,
                 ]);
+            $this->tracerAction('Mise à jour du profil d\'un prestataire');
             return response()->json(["message" => "Votre profil a été mis à jour"], 200);
             }
         }
@@ -57,7 +60,7 @@ class PrestataireController extends Controller
             "photo3" => $request->photo3,
             "user_id" => $request->user_id,
         ]);
-
+        $this->tracerAction('Création d\'un prestataire');
       return response()->json( ["message" => "Prestataire créé avec succès"], 201);
     }
 
@@ -104,6 +107,7 @@ class PrestataireController extends Controller
             'evenement_id' => $request->evenement_id,
             'message' => $request->message,
         ]);
+        $this->tracerAction('Invitation d\'un prestataire');
         return response()->json(['message' => 'Invitation envoyée', 'status' => 201], 201);  
     }
 
@@ -112,6 +116,7 @@ class PrestataireController extends Controller
         if(!$invite){
             return $this->notFoundResponse('Utilisateur non trouvé');
         }
+        $this->tracerAction('Liste des invitations');
         return InvitationResource::collection(InvitationPrestataire::where('invite_id', $id)->get());
     }
 }

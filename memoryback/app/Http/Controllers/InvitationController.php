@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Evenement;
+use App\traits\RadarTrait;
 use Illuminate\Http\Request;
 use App\Mail\RefusInvitationMail;
 use App\Mail\AccepterInvitationMail;
@@ -13,7 +14,7 @@ use App\traits\NotFoundResponseTrait;
 
 class InvitationController extends Controller
 {
-    use NotFoundResponseTrait;
+    use NotFoundResponseTrait, RadarTrait;
 
 
     public function accepterInvitation(String $id)
@@ -29,9 +30,10 @@ class InvitationController extends Controller
         $mail = new AccepterInvitationMail($evenement, $nomOrganisateur, $nomprestataire);
         $mail->to($emailOrganisateur);
         Mail::send($mail);
-        // $invitation->update([
-        //     'accepte' => true
-        // ]);
+        $invitation->update([
+            'accepte' => true
+        ]);
+        $this->tracerAction('Acceptation d\'une invitation');
         return response()->json(['message' => 'Invitation acceptée','statut'=>200]);
     }
 
@@ -48,7 +50,8 @@ class InvitationController extends Controller
         $mail = new RefusInvitationMail($nomOrganisateur, $nomPrestataire);
         $mail->to($emailOrganisateur);
         Mail::send($mail);
-        // $invitation->delete();
+        $invitation->delete();
+        $this->tracerAction('Refus d\'une invitation');
         return response()->json(['message' => 'Invitation refusée','statut'=>200]);
     }
 
