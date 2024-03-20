@@ -23,32 +23,29 @@ use App\Http\Controllers\InvitationController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::apiResource('/evenements', EvenementController::class);
-
-Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::apiResource('/prestataires', PrestataireController::class);
-Route::apiResource('/demande-participation', DemandeParticipationController::class );
-Route::get('/reservations', [ReservationController::class, 'index']);
-Route::match(['put', 'patch'], '/users', [UserController::class, 'update']);
-Route::post('/message', [ChatController::class, 'message']);
-Route::get('/message', [ChatController::class, 'getChat']);
-Route::get('/user/{id}/messages', [ChatController::class, 'getUserChat']);
-Route::post('/notation', [NotationController::class, 'store']);
-Route::get('/user/prestataires', [UserController::class, 'getuserPrestataires']);
-Route::get('/evenement/user/{id}', [EvenementController::class, 'getuserEvenements']);
-Route::post('/prestataire/invite', [PrestataireController::class, 'invitePrestataire']);
-Route::get('/prestataire/{id}/invitations', [PrestataireController::class, 'getInvitations']);
-Route::match(['put', 'patch'], '/prestataire/invitation/accepter/{id}', [InvitationController::class, 'accepterInvitation']);
-Route::delete('/prestataire/invitation/refuser/{id}', [InvitationController::class, 'refuserInvitation']);
+
 Route::middleware('auth:api')->get('/verify-token', function () {
   return true; // Si le middleware auth:api passe, le token est valide
 });
 Route::middleware('auth:api')->group(function () {
-
-
+  Route::apiResource('/evenements', EvenementController::class);
+  Route::post('/register', [UserController::class, 'store']);
+  Route::get('/users/{id}', [UserController::class, 'show']);
+  Route::apiResource('/prestataires', PrestataireController::class);
+  Route::apiResource('/demande-participation', DemandeParticipationController::class );
+  Route::get('/reservations', [ReservationController::class, 'index']);
+  Route::match(['put', 'patch'], '/users', [UserController::class, 'update']);
+  Route::post('/message', [ChatController::class, 'message']);
+  Route::get('/message', [ChatController::class, 'getChat']);
+  Route::get('/user/{id}/messages', [ChatController::class, 'getUserChat']);
+  Route::post('/notation', [NotationController::class, 'store']);
+  Route::get('/user/prestataires', [UserController::class, 'getuserPrestataires']);
+  Route::get('/evenement/user/{id}', [EvenementController::class, 'getuserEvenements']);
+  Route::post('/prestataire/invite', [PrestataireController::class, 'invitePrestataire']);
+  Route::get('/prestataire/{id}/invitations', [PrestataireController::class, 'getInvitations']);
+  Route::match(['put', 'patch'], '/prestataire/invitation/accepter/{id}', [InvitationController::class, 'accepterInvitation']);
+  Route::delete('/prestataire/invitation/refuser/{id}', [InvitationController::class, 'refuserInvitation']);
 
   Route::get('user', function (Request $request) {
     return new UserRessource($request->user());

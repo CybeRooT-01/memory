@@ -35,13 +35,13 @@ trait RadarTrait
         } elseif (isset($_SERVER['REMOTE_ADDR'])) {
             $adresseIP = $_SERVER['REMOTE_ADDR'];
         }
-
         return $adresseIP;
     }
 
     public function tracerAction($action)
     {
         $utilisateurConnecte = Auth::user();
+        // dd("tracerAction", $utilisateurConnecte);
         $adresseIP = $this->obtenirAdresseIP();
 
         Tracking::create([

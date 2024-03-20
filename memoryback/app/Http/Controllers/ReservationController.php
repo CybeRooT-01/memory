@@ -15,6 +15,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Reservation::class);
         $reservation = Reservation::all();
         $this->tracerAction('Liste des réservations');
         return response()->json(ReservationResource::collection($reservation), 200);

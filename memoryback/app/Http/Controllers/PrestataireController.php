@@ -23,6 +23,7 @@ class PrestataireController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Prestataire::class);
         $this->tracerAction('Liste des prestataires');
         return PrestataireResource::collection(Prestataire::all());
     }
@@ -32,6 +33,7 @@ class PrestataireController extends Controller
      */
     public function store(PrestatairePostRequest $request)
     {
+        $this->authorize('create', Prestataire::class);
       $allPrestataires = Prestataire::all();
       $userId = $request->user_id;
         foreach ($allPrestataires as $prestataire) {
@@ -90,6 +92,7 @@ class PrestataireController extends Controller
 
     public function invitePrestataire(Request $request)
     {
+        $this->authorize('invite', Prestataire::class);
         $evenement = Evenement::find($request->evenement_id);
         $emailReceveur = User::find($request->invite_id)->email;
         $prestaName = User::find($request->invite_id)->name;
@@ -112,11 +115,12 @@ class PrestataireController extends Controller
     }
 
     public function getInvitations(string $id){
+        $this->authorize('getInvite', Prestataire::class);
         $invite = User::find($id);
         if(!$invite){
             return $this->notFoundResponse('Utilisateur non trouvé');
         }
         $this->tracerAction('Liste des invitations');
-        return InvitationResource::collection(InvitationPrestataire::where('invite_id', $id)->get());
+        return InvitationResource::collection(InvitationPrestataire::where('invite_id', $id)->where('accepte', false)->get());
     }
 }

@@ -19,6 +19,7 @@ class InvitationController extends Controller
 
     public function accepterInvitation(String $id)
     {
+        $this->authorize('update',InvitationPrestataire::class);
         $invitation = InvitationPrestataire::find($id);
         if (!$invitation) {
             return response()->json(['message' => 'Invitation non trouvée'], 404);
@@ -39,11 +40,11 @@ class InvitationController extends Controller
 
     public function refuserInvitation(String $id)
     {
+        $this->authorize('delete',InvitationPrestataire::class);
         $invitation = InvitationPrestataire::find($id);
         if (!$invitation) {
             return response()->json(['message' => 'Invitation non trouvée'], 404);
         }
-        
         $nomPrestataire = User::find($invitation->invite_id)->name;
         $nomOrganisateur = User::find($invitation->inviteur_id)->name;
         $emailOrganisateur = User::find($invitation->inviteur_id)->email;

@@ -17,6 +17,7 @@ class EvenementController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Evenement::class);
         $allEvents = EvenementResource::collection(Evenement::all());
         $this->tracerAction('Liste des evenements');
         return response()->json($allEvents, 200);
@@ -27,6 +28,7 @@ class EvenementController extends Controller
      */
     public function store(EvenementPostRequest $request)
     {
+        $this->authorize('create', Evenement::class);
         Evenement::create([
             'nom' => $request->nom,
             'date' => $request->date,
@@ -58,6 +60,7 @@ class EvenementController extends Controller
      */
     public function update(EvenementPostRequest $request, string $id)
     {
+        $this->authorize('update', Evenement::class);
         $event = Evenement::find($id);
         if (!$event) {
             return response()->json(['message' => 'Evenement non trouvé'], 404);
@@ -80,6 +83,7 @@ class EvenementController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete', Evenement::class);
         $event = Evenement::find($id);
         if (!$event) {
             return response()->json(['message' => 'Evenement non trouvé'], 404);

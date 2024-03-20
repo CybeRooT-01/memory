@@ -27,6 +27,7 @@ class DemandeParticipationController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewany', DemandeParticipation::class);
         $demandes = DemandeParticipation::where("etat", "en attente")->get();
         $this->tracerAction('Liste des demandes de participation');
         return response()->json(DemandeParticipationResource::collection($demandes), 200);
@@ -37,6 +38,7 @@ class DemandeParticipationController extends Controller
      */
     public function store(DemandeParticipationPostRequest $request)
     {
+        $this->authorize('create',DemandeParticipation::class);
         $allDemandes = DemandeParticipation::all();
         $prestataireID = $request->prestataire_id;
         $evenementID = $request->evenement_id;
@@ -79,6 +81,7 @@ class DemandeParticipationController extends Controller
      */
     public function update(string $id)
     {
+        $this->authorize('update',DemandeParticipation::class);
         $demande = DemandeParticipation::find($id);
         $reservation = new ReservationResource($demande->reservation);
         $user = User::where("id", $reservation->prestataire->user_id)->first();
@@ -108,6 +111,7 @@ class DemandeParticipationController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete',DemandeParticipation::class);
         $demande = DemandeParticipation::where("id", $id)->where("etat", "en attente")->first();
         if (!$demande) {
             return response()->json(['message' => 'Demande de participation non trouvée'], 404);
