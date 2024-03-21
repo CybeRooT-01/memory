@@ -14,8 +14,8 @@ export class InvitationPrestataireComponent implements OnInit{
 
   invitation:Invitation[] = [];
   user_id: number | undefined ;
-
-
+  isLoading:boolean = true
+  isEmptyInvitation: boolean = false;
   constructor(private sharedservice:SharedService, private prestataireservice:PrestataireService) { }
 
   ngOnInit(): void {
@@ -29,6 +29,9 @@ export class InvitationPrestataireComponent implements OnInit{
       this.user_id = userData.data?.id;
       console.log(this.user_id);
       this.getstuff()
+      console.log("empty :" + this.isEmptyInvitation);
+      
+      this.isLoading = false;
     });
   }
 
@@ -36,6 +39,7 @@ export class InvitationPrestataireComponent implements OnInit{
     this.prestataireservice.getInvitations(this.user_id).subscribe((response: any) => {
       this.invitation = response.data;
       console.log(this.invitation);
+      this.isEmptyInvitation = this.invitation.length === 0;
     });
   }
 

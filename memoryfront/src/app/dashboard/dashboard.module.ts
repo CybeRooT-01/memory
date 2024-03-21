@@ -23,6 +23,7 @@ import { DemandeParticipationComponent } from './demande-participation/demande-p
 import { ChatComponent } from './chat/chat.component';
 import { PrestatairesComponent } from './prestataires/prestataires.component';
 import { InvitationPrestataireComponent } from './invitation-prestataire/invitation-prestataire.component';
+import { LoaderComponent } from './loader/loader.component';
 const authRoutes: Routes = [
   {
     path: '',
@@ -86,6 +87,7 @@ const authRoutes: Routes = [
     ChatComponent,
     PrestatairesComponent,
     InvitationPrestataireComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,

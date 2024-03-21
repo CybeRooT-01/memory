@@ -23,7 +23,7 @@ export class ProfilPrestataireComponent implements OnInit {
   imageUrl2: string | ArrayBuffer | null = '';
   imageUrl3: string | ArrayBuffer | null = '';
   IdUser: number | undefined;
-
+  isLoading:boolean = true;
   prestatire: Prestataire[] = [];
   loggedPrestataire: Prestataire | undefined;
   loggeduserImg1: any;
@@ -54,6 +54,7 @@ export class ProfilPrestataireComponent implements OnInit {
           this.loggedPrestataire = element;
         }
       });
+      this.isLoading = false
       console.log(this.loggedPrestataire);
     });
   }

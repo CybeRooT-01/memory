@@ -63,8 +63,14 @@ class NotationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $notation = Notation::where('notee_id', $id)->pluck('note')->toArray();
+        $sommeNotes = array_sum($notation);
+        $nombreNotes = count($notation);
+        $moyenne = $nombreNotes > 0 ? round($sommeNotes / $nombreNotes) : 0;
+        return response()->json(['note'=>$moyenne]);
     }
+    
+    
 
     /**
      * Update the specified resource in storage.

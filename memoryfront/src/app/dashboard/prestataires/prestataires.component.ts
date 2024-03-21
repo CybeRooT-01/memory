@@ -21,7 +21,8 @@ export class PrestatairesComponent {
   selectedEventId: number | undefined;
   message: string = '';
   allPrestataires: Prestataire[] = [];
-
+  isLoading:boolean = true
+  isEmptyInvitation:boolean = false;
 
   constructor(
     private prestataireservice: PrestataireService,
@@ -49,6 +50,8 @@ export class PrestatairesComponent {
       this.evenements = response.filter((evenement:Evenement) => {
         return evenement.createur.id === this.user_id;
       });
+      this.isLoading = false
+      this.isEmptyInvitation = this.evenements.length === 0
       console.log(this.evenements);
       console.log(this.user_id);
       

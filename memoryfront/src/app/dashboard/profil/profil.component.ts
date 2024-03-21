@@ -10,6 +10,7 @@ import { NotationService } from 'src/app/services/notation.service';
   styleUrls: ['./profil.component.css'],
 })
 export class ProfilComponent implements OnInit {
+  isLoading: boolean = true;
   UserBizzare: LoggedUser = {};
   uuid: any
   UserConnected: LoggedUser = {};
@@ -39,7 +40,7 @@ export class ProfilComponent implements OnInit {
         this.notationservice.getById(this.uuid).subscribe((response:any)=>{
           this.note = response.note
           console.log(this.note);
-          
+          this.isLoading = false;
         })
       });
 

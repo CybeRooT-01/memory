@@ -40,6 +40,7 @@ Route::middleware('auth:api')->group(function () {
   Route::get('/message', [ChatController::class, 'getChat']);
   Route::get('/user/{id}/messages', [ChatController::class, 'getUserChat']);
   Route::post('/notation', [NotationController::class, 'store']);
+  Route::get('/notation/{id}', [NotationController::class, 'show']);
   Route::get('/user/prestataires', [UserController::class, 'getuserPrestataires']);
   Route::get('/evenement/user/{id}', [EvenementController::class, 'getuserEvenements']);
   Route::post('/prestataire/invite', [PrestataireController::class, 'invitePrestataire']);

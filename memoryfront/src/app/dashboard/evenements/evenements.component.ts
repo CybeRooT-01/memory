@@ -26,6 +26,7 @@ import { DemandeParticipationRequest } from '../../Interfaces/DemandeParticipati
 })
 export class EvenementsComponent implements OnInit {
   commentaire: any;
+  isLoading:boolean = true
   checktime(e: Event) {
     console.log('ok');
   }
@@ -97,6 +98,7 @@ export class EvenementsComponent implements OnInit {
     this.authservice.getCurrentUser().subscribe((user: LoggedUser) => {
       this.user_id = user.data?.id;
       this.userlogged = user;
+      this.isLoading = false
       console.log(this.userlogged);
     });
     this.formulaire.get('heure')?.valueChanges.subscribe((value) => {

@@ -11,6 +11,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./demande-participation.component.css'],
 })
 export class DemandeParticipationComponent implements OnInit {
+  isLoading:boolean = true;
+  isEmptyInvitation:boolean = false;
   constructor(
     private demandeParticipationService: DemandeParticipationService,
     private toastr: ToastrService
@@ -24,7 +26,9 @@ export class DemandeParticipationComponent implements OnInit {
           return element.etat === 'en attente';
         }
       );
+      this.isLoading = false
       console.log(this.demandeParticipation);
+      this.isEmptyInvitation = this.demandeParticipation.length === 0;
     });
     const script = document.createElement('script');
     script.src =
@@ -46,6 +50,7 @@ export class DemandeParticipationComponent implements OnInit {
             return element.id !== id;
           }
         );
+        this.isEmptyInvitation = this.demandeParticipation.length === 0;
 
       },
       (error: any) => {
@@ -65,6 +70,7 @@ export class DemandeParticipationComponent implements OnInit {
             return element.id !== id;
           }
         );
+        this.isEmptyInvitation = this.demandeParticipation.length === 0;
       },
       (error: any) => {
         console.log(error);
