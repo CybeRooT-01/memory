@@ -329,9 +329,13 @@ body {
 .info {
   color: var(--dark);
 }
+.overlay{
+  position: fixed;
+  z-index: 10000000000000000000;
+}
 .setting {
   margin-top: 50px;
-  position: absolute;
+  position: fixed;
   right: 10px;
   top: 10px;
   width: 120px;
@@ -341,7 +345,7 @@ body {
   justify-content: space-around;
   padding: 10px;
   border-radius: 10px;
-  z-index: 10;
+  /* z-index: 100000000; */
   background-color: var(--light);
 }
 .content nav .notif .count {
