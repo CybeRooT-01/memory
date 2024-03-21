@@ -96,13 +96,16 @@
               </div>
               <div class="modal-footer">
                 <button
-                  type="button"
-                  class="bg-blue-700 text-white w-[100px] h-[40px] rounded-2"
-                  data-bs-dismiss="modal"
-                  (click)="valider(demande.id)"
-                >
-                  valider
-                </button>
+                type="button"
+                class="bg-blue-700 text-white w-[100px] h-[40px] rounded-2"
+                data-bs-dismiss="modal"
+                [disabled]="isValiderBtnLoading"
+                (click)="valider(demande.id)"
+              >
+                <span *ngIf="isValiderBtnLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span>Valider</span>
+              </button>
+              
                 <button
                   type="button"
                   class="bg-red-700 text-white w-[100px] h-[40px] rounded-2"
@@ -149,12 +152,14 @@
               <div class="modal-footer">
                 <button
                 (click)="refuser(demande.id)"
+                [disabled]="isRefuserButton"
                   type="button"
                   class="bg-blue-700 text-white w-[100px] h-[40px] rounded-2"
                   data-bs-dismiss="modal"
                   s
                 >
-                  valider
+                <span *ngIf="isRefuserButton" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span>valider</span>
                 </button>
                 <button
                   type="button"

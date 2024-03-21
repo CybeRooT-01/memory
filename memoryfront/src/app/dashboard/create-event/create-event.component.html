@@ -136,14 +136,15 @@
             Précédent
           </button>
           <button
-            mat-button
-            class="btn_stepper"
-            style="color: white; margin-left: 10px"
-            [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid"
-            (click)="ajouterEvent()"
-          >
-            Enregistrer
-          </button>
+          mat-button
+          class="btn_stepper"
+          style="color: white; margin-left: 10px"
+          [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || isSaveBtnLoading"
+          (click)="ajouterEvent()"
+        >
+          <span *ngIf="isSaveBtnLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span>Enregistrer</span>
+        </button>        
         </div>
       </form>
     </mat-step>

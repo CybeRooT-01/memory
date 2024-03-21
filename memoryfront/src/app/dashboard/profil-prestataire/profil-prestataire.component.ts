@@ -129,10 +129,12 @@ export class ProfilPrestataireComponent implements OnInit {
     let regex = /[a-zA-Z]/;
     return regex.test(tarif);
   }
-
+  isEnregistrerBtnLoading: boolean = false;
   enregistrer() {
+    this.isEnregistrerBtnLoading = true;
     if (this.tarifConainslettre(this.formulaire.value.tarifs)) {
       this.toastr.error('Veuillez saisir un tarif valide');
+      this.isEnregistrerBtnLoading = false;
       return;
     }
 
@@ -149,10 +151,12 @@ export class ProfilPrestataireComponent implements OnInit {
     console.log(data);
     this.prestataireService.create(data).subscribe(
       (response: any) => {
+        this.isEnregistrerBtnLoading = false;
         console.log(response.message);
         this.toastr.success(response.message);
       },
       (error: any) => {
+        this.isEnregistrerBtnLoading = false;
         this.toastr.error(error.message);
       }
     );

@@ -58,8 +58,10 @@ export class PrestatairesComponent {
       
     });
   }
-
+  isInviterBtnLoading: boolean = false;
   inviter(id: number|undefined, event_id: number|undefined, message: string){
+    this.isInviterBtnLoading = true;
+
     let data = {
       inviteur_id: this.user_id,
       invite_id: id,
@@ -68,11 +70,14 @@ export class PrestatairesComponent {
     }
     if(event_id === undefined || +event_id === 0){
       this.toastr.error('Veuillez selectionner un evenement');
+      this.isInviterBtnLoading = false;
       return;
     }
     data.evenement_id = +event_id;
     console.log(data);
     this.prestataireservice.invite(data).subscribe((response: any) => {
+      this.isInviterBtnLoading = false;
+
       if(response.status === 201){
         this.toastr.success('Invitation envoyée avec succès');
         this.message = '';
@@ -80,6 +85,8 @@ export class PrestatairesComponent {
       }
     }, (error) => {
       this.toastr.error(error.error.message);
+      this.isInviterBtnLoading = false;
+
     });
   }
 searchPrestataire(event: any){

@@ -36,14 +36,17 @@ export class DemandeParticipationComponent implements OnInit {
     script.async = true;
     document.body.appendChild(script);
   }
+  isValiderBtnLoading =false
 
   valider(id: number) {
+  this.isValiderBtnLoading =true
     let data = {
       id: id,
     };
     this.demandeParticipationService.update(data).subscribe(
       (response: any) => {
         console.log(response);
+        this.isValiderBtnLoading = false;
         this.toastr.success(response.message);
         this.demandeParticipation = this.demandeParticipation.filter(
           (element: DemandeParticipation) => {
@@ -54,16 +57,18 @@ export class DemandeParticipationComponent implements OnInit {
 
       },
       (error: any) => {
+        this.isValiderBtnLoading = true;
         console.log(error);
         this.toastr.error(error.error.message);
       }
     );
   }
-
+isRefuserButton: boolean = false;
   refuser(id: number) {
     this.demandeParticipationService.delete(id).subscribe(
       (response: any) => {
         console.log(response);
+        this.isRefuserButton = true;
         this.toastr.success(response.message);
         this.demandeParticipation = this.demandeParticipation.filter(
           (element: DemandeParticipation) => {
@@ -73,6 +78,7 @@ export class DemandeParticipationComponent implements OnInit {
         this.isEmptyInvitation = this.demandeParticipation.length === 0;
       },
       (error: any) => {
+        this.isRefuserButton = true;
         console.log(error);
         this.toastr.error(error.error.message);
       }

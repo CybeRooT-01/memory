@@ -134,8 +134,18 @@
     </h4>
     <div class="modal-buttons">
       <button class="btn cancel" (click)="closeSuppModal()">Annuler</button>
-      <button class="btn delete" (click)="deleteEVent(SuppSelectedEvent.id)">
-        Supprimer
+      <button
+        [disabled]="isDeleteBtnLoading"
+        class="btn delete"
+        (click)="deleteEVent(SuppSelectedEvent.id)"
+      >
+        <span
+          *ngIf="isDeleteBtnLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <span *ngIf="!isDeleteBtnLoading">Supprimer</span>
       </button>
     </div>
   </div>
@@ -172,9 +182,11 @@
       >
         Annuler
       </button>
-      <button class="btn" (click)="demandeParticipation(demandeParticip.id)">
-        demander
+      <button class="btn" [disabled]="isDemandeParticipationBtnLoading" (click)="demandeParticipation(demandeParticip.id)">
+        <span *ngIf="isDemandeParticipationBtnLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span>Demander</span>
       </button>
+      
     </div>
   </div>
 </div>
@@ -272,11 +284,17 @@
           Annuler
         </button>
         <button
-          [disabled]="!isModified"
+          [disabled]="isBtnLoading || !isModified"
           class="btn update"
           (click)="updateEvent(updateSelectedEvent.id)"
         >
-          Modifier
+          <span
+            *ngIf="isBtnLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          <span *ngIf="!isBtnLoading">Modifier</span>
         </button>
       </div>
     </form>

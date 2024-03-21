@@ -206,21 +206,20 @@
         </div>
       </div>
       <button
-        [disabled]="formulaire.invalid && loggedPrestataire == undefined"
-        [ngStyle]="{
-          transparent: formulaire.invalid && loggedPrestataire == undefined
-        }"
-        [ngStyle]="{
-          cursor:
-            formulaire.invalid && loggedPrestataire == undefined
-              ? 'not-allowed'
-              : 'pointer'
-        }"
-        (click)="enregistrer()"
-        class="btn detail"
-      >
-        Enregistrer
-      </button>
+  [disabled]="isEnregistrerBtnLoading || formulaire.invalid && loggedPrestataire == undefined"
+  [ngStyle]="{
+    'background-color': (isEnregistrerBtnLoading || formulaire.invalid && loggedPrestataire == undefined) ? 'transparent' : ''
+  }"
+  [ngStyle]="{
+    'cursor': (isEnregistrerBtnLoading || formulaire.invalid && loggedPrestataire == undefined) ? 'not-allowed' : 'pointer'
+  }"
+  (click)="enregistrer()"
+  class="btn detail"
+>
+  <span *ngIf="isEnregistrerBtnLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  <span>Enregistrer</span>
+</button>
+
     </div>
   </form>
 </div>

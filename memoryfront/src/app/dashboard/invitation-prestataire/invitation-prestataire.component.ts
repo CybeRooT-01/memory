@@ -42,26 +42,31 @@ export class InvitationPrestataireComponent implements OnInit{
       this.isEmptyInvitation = this.invitation.length === 0;
     });
   }
-
+  isValiderBtnLoading: boolean = false;
   valider(id: number | undefined){
+    this.isValiderBtnLoading = true;
     this.prestataireservice.acceptInvitation(id).subscribe((response: any) => {
+      this.isValiderBtnLoading = false;
       if(response.statut === 200){
         console.log(response.statut);
         this.getstuff()
       }
     }, (error) => {
+      this.isValiderBtnLoading = false;
       console.log(error);
     });
   }
-
+  isRejetterBtnLoading: boolean = false;
   rejetter(id: number | undefined){
+    this.isRejetterBtnLoading = true;
     this.prestataireservice.refuseInvitation(id).subscribe((response: any) => {
       if(response.statut === 200){
+        this.isRejetterBtnLoading = false;
         console.log(response.statut);
         this.getstuff()
-        
       }
     }, (error) => {
+      this.isRejetterBtnLoading = false
       console.log(error);
     });
   }

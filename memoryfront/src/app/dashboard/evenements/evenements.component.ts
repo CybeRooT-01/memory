@@ -214,7 +214,10 @@ export class EvenementsComponent implements OnInit {
     e.preventDefault();
     this.updateSelectedEvent = undefined;
   }
+  isDeleteBtnLoading = false
   deleteEVent(id: number) {
+  this.isDeleteBtnLoading = true
+
     console.log(id);
     this.evenementservice.delete(id).subscribe((response: any) => {
       if (response.status === 200) {
@@ -222,11 +225,14 @@ export class EvenementsComponent implements OnInit {
           return event.id !== id;
         });
         this.SuppSelectedEvent = undefined;
+        this.isDeleteBtnLoading = false;
       }
     });
   }
+  isBtnLoading = false
 
   updateEvent(id: number) {
+    this.isBtnLoading = true;
     let data: any = {
       id: id,
       nom: this.formulaire.value.nom,
@@ -243,6 +249,7 @@ export class EvenementsComponent implements OnInit {
         this.toastr.success('Evenement modifié avec succès');
         this.ngOnInit();
         this.updateSelectedEvent = undefined;
+        this.isBtnLoading = false
       }
     });
   }
@@ -269,7 +276,9 @@ export class EvenementsComponent implements OnInit {
        });
      }
   }
+  isDemandeParticipationBtnLoading: boolean = false;
   demandeParticipation(id: number) {
+    this.isDemandeParticipationBtnLoading = true;
     let data: DemandeParticipationRequest = {
       evenement_id: id,
       prestataire_id: this.prestataire_id,
@@ -284,10 +293,12 @@ export class EvenementsComponent implements OnInit {
     console.log(data);
     this.demandeParticipationService.DemanderParticipation(data).subscribe(
       (response: any) => {
+        this.isDemandeParticipationBtnLoading = false;
         this.toastr.success(response.message);
         this.demandeParticip = undefined;
       },
       (error: any) => {
+        this.isDemandeParticipationBtnLoading = false;
         this.toastr.error(error.error.message);
       }
     );

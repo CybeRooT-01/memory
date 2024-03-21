@@ -118,13 +118,16 @@
               </div>
               <div class="modal-footer">
                 <button
-                  type="button"
-                  class="bg-blue-700 text-white w-[100px] h-[40px] rounded-2"
-                  data-bs-dismiss="modal"
-                  (click)="inviter(presta.user?.id ,selectedEventId, message)"
-                >
-                  Inviter
-                </button>
+                type="button"
+                class="bg-blue-700 text-white w-[100px] h-[40px] rounded-2"
+                data-bs-dismiss="modal"
+                [disabled]="isInviterBtnLoading"
+                (click)="inviter(presta.user?.id, selectedEventId, message)"
+              >
+                <span *ngIf="isInviterBtnLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span>Inviter</span>
+              </button>
+              
                 <button
                   type="button"
                   class="bg-red-700 text-white w-[100px] h-[40px] rounded-2"

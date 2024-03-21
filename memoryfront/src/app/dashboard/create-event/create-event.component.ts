@@ -53,8 +53,9 @@ export class CreateEventComponent implements OnInit {
       this.user_id = user.data?.id;
     });
   }
-
+  isSaveBtnLoading: boolean = false;
   ajouterEvent() {
+    this.isSaveBtnLoading = true;
     let data: any = {
       nom: this.firstFormGroup.value.nom,
       date: this.firstFormGroup.value.date.toISOString().slice(0, 10),
@@ -66,6 +67,7 @@ export class CreateEventComponent implements OnInit {
     };
     this.evenementservice.create(data).subscribe((response: any) => {
       if (response.status === 201) {
+        this.isSaveBtnLoading = false;
         this.firstFormGroup.reset();
         this.secondFormGroup.reset();
         this.thirdFormGroup.reset();
